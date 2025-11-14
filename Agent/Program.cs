@@ -2,7 +2,6 @@
 using AgentClient.Domain.Models.Agents;
 using System.Diagnostics;
 using System.Security.Principal;
-using System;
 
 namespace AgentClient
 {

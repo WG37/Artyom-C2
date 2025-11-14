@@ -11,6 +11,7 @@ namespace AgentClient.Infrastructure.CommModules
         public int ConnectPort { get; set; }
 
         private readonly Agent _agent;
+
         private CancellationTokenSource _tokenSource;
         private HttpClient _client;
 
@@ -26,7 +27,7 @@ namespace AgentClient.Infrastructure.CommModules
             base.Initialiser(metadata);
 
             _client = new HttpClient();
-            _client.BaseAddress = new Uri($"{ConnectAddress}:{ConnectPort}");
+            _client.BaseAddress = new Uri($"{ConnectAddress}:{ConnectPort}/");
             _client.DefaultRequestHeaders.Clear();
 
             var dto = _agent.Dto();
