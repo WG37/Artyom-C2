@@ -34,6 +34,7 @@ namespace TeamServer.Infrastructure.Data
             {
                 e.ToTable("Agents");
                 e.HasKey(a => a.Id);
+                e.Property(a => a.LastSeen);
                 e.Property(a => a.UniqueId).IsRequired();
                 e.HasIndex(a => a.UniqueId).IsUnique();
 
