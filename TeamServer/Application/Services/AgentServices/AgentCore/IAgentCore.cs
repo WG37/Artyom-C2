@@ -4,9 +4,6 @@ namespace TeamServer.Application.Services.AgentServices.AgentCore
 {
     public interface IAgentCore
     {
-        // checkIn
-        Task CheckIn();
-
         // queueTask
         Task QueueTask(AgentTask task);
 

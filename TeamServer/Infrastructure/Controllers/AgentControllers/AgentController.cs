@@ -22,28 +22,28 @@ namespace TeamServer.Infrastructure.Controllers.AgentControllers
             return Ok(agents);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAgent(Guid id)
+        [HttpGet("{uniqueId}")]
+        public async Task<IActionResult> GetAgent(Guid uniqueId)
         {
-            if (id == Guid.Empty)
-                return BadRequest($"The id: {id} is invalid");
+            if (uniqueId == Guid.Empty)
+                return BadRequest($"The id: {uniqueId} is invalid");
 
-            var agent = await _agentCRUD.GetAgentAsync(id);
+            var agent = await _agentCRUD.GetAgentByUniqueIdAsync(uniqueId);
             if (agent == null) 
-                return NotFound($"No agent exists with the id: {id}");
+                return NotFound($"No agent exists with the id: {uniqueId}");
 
             return Ok(agent);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> RemoveAgent(Guid id)
+        [HttpDelete("{uniqueId}")]
+        public async Task<IActionResult> RemoveAgent(Guid uniqueId)
         {
-            if (id == Guid.Empty)
-                return BadRequest($"The id: {id} is invalid");
+            if (uniqueId == Guid.Empty)
+                return BadRequest($"The id: {uniqueId} is invalid");
 
-            var deleted = await _agentCRUD.RemoveAgentAsync(id);
+            var deleted = await _agentCRUD.RemoveAgentByUniqueIdAsync(uniqueId);
             if (!deleted)
-                return BadRequest($"Cannot delete. No agent with the id: {id} exists");
+                return BadRequest($"Cannot delete. No agent with the id: {uniqueId} exists");
 
             return NoContent();
         }

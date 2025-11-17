@@ -37,19 +37,6 @@ namespace TeamServer.Application.Services.AgentServices.AgentCRUD
             return agents;
         }
 
-        // get
-        public async Task<Agent> GetAgentAsync(Guid id)
-        {
-            if (id == Guid.Empty)
-                throw new ArgumentException($"The id: '{id}' is invalid.");
-
-            var agent = await _db.Agents.FirstOrDefaultAsync(a => a.Id == id);
-            if (agent == null)
-                throw new KeyNotFoundException("The id does not exist.");
-            
-            return agent;
-        }
-
         // get uniqueId
         public async Task<Agent?> GetAgentByUniqueIdAsync(Guid uniqueId)
         {
@@ -62,14 +49,14 @@ namespace TeamServer.Application.Services.AgentServices.AgentCRUD
         }
 
         // delete
-        public async Task<bool> RemoveAgentAsync(Guid id)
+        public async Task<bool> RemoveAgentByUniqueIdAsync(Guid uniqueId)
         {
-            if (id == Guid.Empty)
-                throw new ArgumentException($"The id: '{id}' is invalid.");
+            if (uniqueId == Guid.Empty)
+                throw new ArgumentException($"The id: '{uniqueId}' is invalid.");
             try
             {
-                var agent = await GetAgentAsync(id);
-                
+                var agent = await GetAgentByUniqueIdAsync(uniqueId);
+
                 _db.Agents.Remove(agent);
                 await _db.SaveChangesAsync();
                 return true;

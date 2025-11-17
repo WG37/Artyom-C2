@@ -8,12 +8,12 @@ namespace TeamServer.Infrastructure.Controllers.ListenerControllers.HttpControll
 {
     [ApiController]
     [Route("[controller]")]
-    public class HttpListenersController : ControllerBase
+    public class HttpListenerController : ControllerBase
     {
         private readonly IHttpCRUD _httpCRUD;
         private readonly IHttpCore _httpCore;
 
-        public HttpListenersController(IHttpCRUD httpCRUD, IHttpCore httpCore)
+        public HttpListenerController(IHttpCRUD httpCRUD, IHttpCore httpCore)
         {
             _httpCRUD = httpCRUD;
             _httpCore = httpCore;

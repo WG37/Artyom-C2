@@ -6,8 +6,7 @@ namespace TeamServer.Application.Services.AgentServices.AgentCRUD
     {
         Task AddAgentAsync(Agent agent);
         Task<IEnumerable<Agent>> GetAgentsAsync();
-        Task<Agent> GetAgentAsync(Guid id);
         Task<Agent> GetAgentByUniqueIdAsync(Guid uniqueId);
-        Task<bool> RemoveAgentAsync(Guid id);
+        Task<bool> RemoveAgentByUniqueIdAsync(Guid uniqueId);
     }
 }

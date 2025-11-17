@@ -7,7 +7,7 @@ using TeamServer.Domain.Entities.Agents;
 namespace TeamServer.Infrastructure.Controllers.AgentControllers
 {
     [ApiController]
-    [Route("agent/{id}/tasks")]
+    [Route("agent/{uniqueId}/tasks")]
     public class AgentTaskController : ControllerBase
     {
         private readonly IAgentCRUD _agentCRUD;
@@ -20,13 +20,13 @@ namespace TeamServer.Infrastructure.Controllers.AgentControllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTaskResults(Guid id)
+        public async Task<IActionResult> GetTaskResults(Guid uniqueId)
         {
-            if (id == Guid.Empty)
+            if (uniqueId == Guid.Empty)
                 return BadRequest("The id is invalid");
 
-            var agent = await _agentCRUD.GetAgentAsync(id);
-            if (agent == null) return NotFound($"Agent with the id: {id} not found");
+            var agent = await _agentCRUD.GetAgentByUniqueIdAsync(uniqueId);
+            if (agent == null) return NotFound($"Agent with the id: {uniqueId} not found");
 
             var results = await _agentCore.GetTaskResults();
             if (results == null || !results.Any())
@@ -36,17 +36,17 @@ namespace TeamServer.Infrastructure.Controllers.AgentControllers
         }
 
         [HttpGet("{taskId}")]
-        public async Task<IActionResult> GetTaskResult(Guid taskId, Guid id)
+        public async Task<IActionResult> GetTaskResult(Guid taskId, Guid uniqueId)
         {
-            if (id == Guid.Empty)
+            if (uniqueId == Guid.Empty)
                 return BadRequest("The id is invalid");
 
             if (taskId == Guid.Empty)
                 return BadRequest("The id is invalid");
 
-            var agent = await _agentCRUD.GetAgentAsync(id);
+            var agent = await _agentCRUD.GetAgentByUniqueIdAsync(uniqueId);
             if (agent == null)
-                return NotFound($"No agent with the id: {id} exists");
+                return NotFound($"No agent with the id: {uniqueId} exists");
 
             var result = await _agentCore.GetTaskResult(taskId);
             if (result == null)
@@ -56,14 +56,14 @@ namespace TeamServer.Infrastructure.Controllers.AgentControllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TaskAgent([FromBody] AgentTaskDTO dto, Guid id)
+        public async Task<IActionResult> TaskAgent([FromBody] AgentTaskDTO dto, Guid uniqueId)
         {
-            if (id == Guid.Empty)
+            if (uniqueId == Guid.Empty)
                 return BadRequest("The id is invalid");
 
-            var agent = await _agentCRUD.GetAgentAsync(id);
+            var agent = await _agentCRUD.GetAgentByUniqueIdAsync(uniqueId);
             if (agent == null)
-                return NotFound($"No agent with the id: {id} exists");
+                return NotFound($"No agent with the id: {uniqueId} exists");
 
             var task = new AgentTask
             {
@@ -75,7 +75,7 @@ namespace TeamServer.Infrastructure.Controllers.AgentControllers
 
             await _agentCore.QueueTask(task);
 
-            return CreatedAtAction(nameof(GetTaskResult), new { id, taskId = task.Id }, task);
+            return CreatedAtAction(nameof(GetTaskResult), new { uniqueId, taskId = task.Id }, task);
         }
     }
 }

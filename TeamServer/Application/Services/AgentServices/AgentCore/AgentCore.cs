@@ -5,17 +5,9 @@ namespace TeamServer.Application.Services.AgentServices.AgentCore
 {
     public class AgentCore : IAgentCore
     {
-        public DateTime LastSeen { get; private set; }
-
         private readonly ConcurrentQueue<AgentTask> _pendingTasks = new();
         private readonly List<AgentTaskResult> _taskResults = new();
 
-        
-        public Task CheckIn()
-        {
-            LastSeen = DateTime.UtcNow;
-            return Task.CompletedTask;
-        }
         
         public Task QueueTask(AgentTask task)
         {

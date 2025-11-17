@@ -72,6 +72,7 @@ namespace TeamServer.Infrastructure.Controllers.ImplantControllers
                     agent = new Agent(ping.UniqueId, metadata);
                     await _agentCRUD.AddAgentAsync(agent);
                 }
+                agent.CheckIn();
 
                 var tasks = await _agentCore.GetPendingTask();
                 return Ok(tasks ?? Array.Empty<AgentTask>());
