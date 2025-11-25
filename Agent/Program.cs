@@ -53,8 +53,13 @@ namespace AgentClient
 
         private static void HandleTask(AgentTask task)
         {
-            var command = _commands.FirstOrDefault(c => c.Name == task.Command);
-            if (command == null) throw new KeyNotFoundException("Invalid command.");
+            var command = _commands.FirstOrDefault(c => c.Name.Equals(task.Command, StringComparison.OrdinalIgnoreCase));
+            
+            if (command == null)
+            {
+                SendTaskResult(task.Id, "Invalid Command");
+                return;
+            }
 
             var result = command.Execute(task);
             SendTaskResult(task.Id, result);
