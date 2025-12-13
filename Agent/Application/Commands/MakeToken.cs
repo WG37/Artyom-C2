@@ -11,6 +11,11 @@ namespace AgentClient.Application.Commands
 
         public override string Execute(AgentTask task)
         {
+            if (task.Arguments == null || task.Arguments.Length == 0)
+            {
+                return "Invalid args: Requires 'UserDomain', 'password'. ";
+            }
+
             var userDomain = task.Arguments[0];
             var password = task.Arguments[1];
 
