@@ -101,15 +101,6 @@ namespace AgentClient.Infrastructure.Native
             ref STARTUPINFO lpStartupInfo,
             out PROCESS_INFORMATION lpProcessInformation);
 
-        [DllImport("Kernel32.dll", SetLastError = true)]
-        public static extern IntPtr CreateThread(
-            intPtr lpThreadAttribute,
-            uint dwStackSize,
-            IntPtr lpStartAddress,
-            IntPtr lpParameter,
-            uint dwCreationFlags,
-            out IntPtr lpThreadId);
-
         [DllImport("kernel32", SetLastError = true)]
         public static extern IntPtr CreateThread(
            IntPtr lpThreadAttributes,
