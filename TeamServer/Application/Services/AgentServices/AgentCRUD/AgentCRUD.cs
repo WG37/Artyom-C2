@@ -11,23 +11,16 @@ namespace TeamServer.Application.Services.AgentServices.AgentCRUD
 
         public AgentCRUD(AppDbContext db) => _db = db;
 
-        // add
+        
         public async Task AddAgentAsync(Agent agent)
         {
             if (agent == null)
                 throw new ArgumentNullException(nameof(agent), "Cannot add a null entity.");
-            try
-            {
-                _db.Agents.Add(agent);
-                await _db.SaveChangesAsync();
-            }
-            catch (DbException)
-            {
-                throw new DbUpdateException();
-            }
+           
+            _db.Agents.Add(agent);
+             await _db.SaveChangesAsync();
         }
-
-        // get all
+       
         public async Task<IEnumerable<Agent>> GetAgentsAsync()
         {
             var agents = await _db.Agents.ToListAsync();
@@ -36,9 +29,8 @@ namespace TeamServer.Application.Services.AgentServices.AgentCRUD
 
             return agents;
         }
-
-        // get uniqueId
-        public async Task<Agent?> GetAgentByUniqueIdAsync(Guid uniqueId)
+        
+        public async Task<Agent> GetAgentByUniqueIdAsync(Guid uniqueId)
         {
             if (uniqueId == Guid.Empty)
                 throw new ArgumentException($"The uniqueId: '{uniqueId}' is invalid.");
@@ -47,29 +39,22 @@ namespace TeamServer.Application.Services.AgentServices.AgentCRUD
                 .Include(a => a.Metadata)
                 .FirstOrDefaultAsync(a => a.UniqueId == uniqueId);
         }
-
-        // delete
+       
         public async Task<bool> RemoveAgentByUniqueIdAsync(Guid uniqueId)
         {
             if (uniqueId == Guid.Empty)
                 throw new ArgumentException($"The id: '{uniqueId}' is invalid.");
-            try
-            {
-                var agent = await GetAgentByUniqueIdAsync(uniqueId);
 
-                _db.Agents.Remove(agent);
-                await _db.SaveChangesAsync();
-                return true;
-            }
-            catch (KeyNotFoundException)
-            {
+            var agent = await _db.Agents
+                .Include(a => a.Metadata)
+                .FirstOrDefaultAsync(a => a.UniqueId == uniqueId);
+
+            if (agent == null)
                 return false;
-            }
-            catch (DbException)
-            {
-                throw new DbUpdateException("Failed to save changes to database.");
-            }
 
+            _db.Agents.Remove(agent);
+            await _db.SaveChangesAsync();
+            return true;
         }
     }
 }

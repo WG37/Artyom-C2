@@ -15,15 +15,9 @@ namespace TeamServer.Application.Services.ListenerServices.HttpListenerService.H
             if (listener == null)
                 throw new ArgumentNullException(nameof(listener), "Cannot add listener to the database.");
 
-            try
-            {
-                _db.HttpListeners.Add(listener);
-                await _db.SaveChangesAsync();
-            }
-            catch ( DbUpdateException)
-            {
-                throw new DbUpdateException();
-            }
+         
+            _db.HttpListeners.Add(listener);
+            await _db.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<HttpListenerEntity>> GetAllListenersAsync()
@@ -37,29 +31,24 @@ namespace TeamServer.Application.Services.ListenerServices.HttpListenerService.H
 
         public async Task<HttpListenerEntity> GetListenerAsync(string name)
         {
-            var listener = _db.HttpListeners.FirstOrDefault(l => l.Name == name);
+            var listener = await _db.HttpListeners.FirstOrDefaultAsync(l => l.Name == name);
 
-            return listener;   
+            return listener;
         }
 
         public async Task<bool> RemoveListenerAsync(string name)
         {
-            try
-            {
-                var listener = await GetListenerAsync(name);
-                _db.HttpListeners.Remove(listener);
-                await _db.SaveChangesAsync();
+            var listener = await _db.HttpListeners.FirstOrDefaultAsync(l => l.Name == name);
 
-                return true;
-            }
-            catch (ArgumentException)
-            {
+            if (listener == null)
                 return false;
-            }
-            catch (DbUpdateException)
-            {
-                throw new DbUpdateException();
-            }
+
+            _db.HttpListeners.Remove(listener);
+            await _db.SaveChangesAsync();
+
+            return true;
+
+            
         }
     }
 }

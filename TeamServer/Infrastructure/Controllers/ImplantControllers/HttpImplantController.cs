@@ -78,7 +78,7 @@ namespace TeamServer.Infrastructure.Controllers.ImplantControllers
                 {
                     string json;
 
-                    using ( var sr = new StreamReader(HttpContext.Request.Body))
+                    using (var sr = new StreamReader(HttpContext.Request.Body))
                     {
                         json = await sr.ReadToEndAsync();
                     }
