@@ -47,8 +47,28 @@ namespace TeamServer.Application.Services.ListenerServices.HttpListenerService.H
             await _db.SaveChangesAsync();
 
             return true;
+        }
 
-            
+        public async Task<bool> UpdateChangesAsync(HttpListenerEntity listener)
+        {
+            if (listener == null)
+                throw new ArgumentNullException(nameof(listener));
+
+            _db.HttpListeners.Update(listener);
+            await _db.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> UpdateChangesAsync(IEnumerable<HttpListenerEntity> listeners)
+        {
+            if (listeners == null)
+                throw new ArgumentNullException(nameof(listeners));
+
+            _db.HttpListeners.UpdateRange(listeners);
+            await _db.SaveChangesAsync();
+
+            return true;
         }
     }
 }

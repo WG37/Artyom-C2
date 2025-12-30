@@ -8,5 +8,7 @@ namespace TeamServer.Application.Services.ListenerServices.HttpListenerService.H
         Task<IEnumerable<HttpListenerEntity>> GetAllListenersAsync();
         Task<HttpListenerEntity> GetListenerAsync(string name);
         Task<bool> RemoveListenerAsync(string name);
+        Task<bool> UpdateChangesAsync(HttpListenerEntity listener);
+        Task<bool> UpdateChangesAsync(IEnumerable<HttpListenerEntity> listeners);
     }
 }
