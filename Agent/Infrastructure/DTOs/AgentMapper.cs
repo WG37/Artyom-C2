@@ -14,6 +14,7 @@ namespace AgentClient.Infrastructure.DTOs
                 {
                     Hostname = agent.Metadata.Hostname,
                     Username = agent.Metadata.Username,
+                    SystemUuid = agent.Metadata.SystemUuid,
                     ProcessName = agent.Metadata.ProcessName,
                     ProcessId = agent.Metadata.ProcessId,
                     Architecture = agent.Metadata.Architecture,
