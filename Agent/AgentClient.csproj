@@ -11,4 +11,12 @@
     <ProjectReference Include="..\ApiModels\ApiModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructure\Utilities\HWIDs\HWID\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Management" Version="10.0.1" />
+  </ItemGroup>
+
 </Project>
