@@ -1,6 +1,6 @@
 ﻿using System.Management;
 
-namespace AgentClient.Infrastructure.Utilities.HWIDs.ComponentIDs
+namespace AgentClient.Infrastructure.Native.Windows.Wmi.System
 {
     public class SystemUuid
     {
