@@ -1,7 +1,7 @@
 ﻿using AgentClient.Application.Commands;
 using AgentClient.Domain.Models.Agents;
-using AgentClient.Infrastructure.Utilities.HWIDs.ComponentIDs;
 using AgentClient.Infrastructure.CommModules;
+using AgentClient.Infrastructure.Native.Windows.Wmi.LogicalDisk;
 using System.Diagnostics;
 using System.Reflection;
 using System.Security.Principal;
@@ -118,7 +118,6 @@ namespace AgentClient
             {
                 Hostname = Environment.MachineName,
                 Username = identity.Name,
-                SystemUuid = SystemUuid.GetSystemUuid(),
                 ProcessId = process.Id,
                 ProcessName = process.ProcessName,
                 Integrity = integrity,
@@ -127,6 +126,8 @@ namespace AgentClient
 
             process.Dispose();
             identity.Dispose();
+
+
         }
     }
 }
